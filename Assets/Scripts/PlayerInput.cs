@@ -12,7 +12,7 @@ public class PlayerInput : MonoBehaviour
 
     public float Dup;
     public float Dright;
-    public float Dmag;
+    public float Dmag;      //当前输入向量模
     public Vector3 Dvec;
 
     public bool InputEnabled = true;
@@ -37,7 +37,6 @@ public class PlayerInput : MonoBehaviour
         //{
         //    print("keyup is pressed!");
         //}
-
 
 
         TargetDup = (Input.GetKey(KeyUp) ? 1.0f : 0) - (Input.GetKey(KeyDown) ? 1.0f : 0);
