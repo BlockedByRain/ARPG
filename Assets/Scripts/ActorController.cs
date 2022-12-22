@@ -7,9 +7,12 @@ public class ActorController : MonoBehaviour
 
     public GameObject model;
     public PlayerInput pi;
-    public float walkSpeed = 2.0f;
+    public float walkSpeed;
     public float runMultiplier;
     public float jumpVelocity;
+    public float rollVelocity;
+    public float jabVelocity;
+
 
     [SerializeField]
     private Animator anim;
@@ -47,10 +50,25 @@ public class ActorController : MonoBehaviour
         //勾股定理，无论任何角度输入都能向前，加速插值平滑
         float targetRunMulti = (pi.run) ? 2.0f : 1.0f;
         anim.SetFloat("Forward", pi.Dmag * Mathf.Lerp(anim.GetFloat("Forward"),targetRunMulti,0.5f));
+
+        if (rb.velocity.magnitude>1.0f)
+        {
+            anim.SetTrigger("Roll");
+        }
+        
+        
+        
         if (pi.jump)
         {
             anim.SetTrigger("Jump");
         }
+
+
+        if (pi.attack)
+        {
+            anim.SetTrigger("Attack");
+        }
+
 
 
         if (pi.Dmag>0.1f)       //防止向量过小导致朝向错误
@@ -83,9 +101,9 @@ public class ActorController : MonoBehaviour
     public void OnJumpEnter()
     {
         //Debug.Log("On jump enter");
+        thrustVec = new Vector3(0, jumpVelocity, 0);
         pi.InputEnabled = false;
         lockPlanar = true;
-        thrustVec = new Vector3(0, jumpVelocity, 0);
     }
 
     //public void OnJumpExit()
@@ -113,6 +131,49 @@ public class ActorController : MonoBehaviour
     {
         pi.InputEnabled = true;
         lockPlanar = false;
+    }
+
+    public void OnFallEnter()
+    {
+        pi.InputEnabled = false;
+        lockPlanar = true;
+    }
+
+    public void OnRollEnter()
+    {
+        thrustVec = new Vector3(0, rollVelocity, 0);
+        pi.InputEnabled = false;
+        lockPlanar=true;
+    }
+
+
+    public void OnJabEnter()
+    {
+        //thrustVec = model.transform.forward * -jabVelocity;
+        pi.InputEnabled = false;
+        lockPlanar = true;
+        
+    }
+
+
+    public void OnJabUpdate()
+    {
+        //thrustVec = model.transform.forward * -jabVelocity;
+        thrustVec = model.transform.forward * anim.GetFloat("JabVelocity");
+
+    }
+
+
+    public void OnAttack1hAEnter()
+    {
+        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 1.0f);
+
+    }
+
+    public void OnAttackIdle()
+    {
+        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 0);
+
     }
 
 

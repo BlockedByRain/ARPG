@@ -15,11 +15,23 @@ public class PlayerInput : MonoBehaviour
     public string KeyC;
     public string KeyD;
 
+    public string keyJRight;
+    public string keyJLeft;
+    public string keyJUp;
+    public string keyJDown;
+
+
+
+
+
     [Header("-----OutputSignal-----")]
     public float Dup;
     public float Dright;
     public float Dmag;      //当前输入向量模
     public Vector3 Dvec;
+
+    public float Jright;
+    public float Jup;
 
 
     //1 pressing signal
@@ -30,6 +42,9 @@ public class PlayerInput : MonoBehaviour
     [Header("-----trigger once signal-----")]
     public bool jump;
     private bool lastJump;
+
+    public bool attack;
+    private bool lastAttack;
 
     //3 double trigger
     //[Header("-----pressing signal-----")]
@@ -59,6 +74,15 @@ public class PlayerInput : MonoBehaviour
         //    print("keyup is pressed!");
         //}
 
+        //camera信号
+        Jup = (Input.GetKey(keyJUp) ? 1.0f : 0) - (Input.GetKey(keyJDown) ? 1.0f : 0);
+        Jright = (Input.GetKey(keyJRight) ? 1.0f : 0) - (Input.GetKey(keyJLeft) ? 1.0f : 0);
+
+
+
+
+
+
 
         TargetDup = (Input.GetKey(KeyUp) ? 1.0f : 0) - (Input.GetKey(KeyDown) ? 1.0f : 0);
         TargetDright = (Input.GetKey(KeyRight) ? 1.0f : 0) - (Input.GetKey(KeyLeft) ? 1.0f : 0);
@@ -79,8 +103,9 @@ public class PlayerInput : MonoBehaviour
         Dmag = Mathf.Sqrt((normalDup * normalDup) + (normalDright * normalDright));
         Dvec = normalDup * transform.forward + normalDright * transform.right;
 
-
         run = Input.GetKey(KeyA);
+
+        //跳跃
         bool newJump=Input.GetKey(KeyB);
         //jump = newJump;
         if (newJump==true && lastJump==false)
@@ -94,8 +119,17 @@ public class PlayerInput : MonoBehaviour
         }
         lastJump = newJump;
 
-
-        
+        //攻击
+        bool newAttack = Input.GetKey(KeyC);
+        if (newAttack == true && lastAttack == false)
+        {
+            attack = true;
+        }
+        else
+        {
+            attack = false;
+        }
+        lastAttack = newAttack;
 
     }
 
