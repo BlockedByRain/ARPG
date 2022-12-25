@@ -428,8 +428,8 @@ MonoBehaviour:
   jumpVelocity: 4
   rollVelocity: 3
   jabVelocity: 2.3
-  anim: {fileID: 1435874295}
-  lockPlanar: 0
+  frictionZero: {fileID: 13400000, guid: f23bf707e5c335f42afa0f7b9be0fb52, type: 2}
+  frictionOne: {fileID: 13400000, guid: 611448eb1d707824f80f23e4cc0d6a37, type: 2}
 --- !u!54 &1231793843
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -551,11 +551,30 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100138, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
   m_PrefabInstance: {fileID: 1743898586}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1435874295 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9500000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
-  m_PrefabInstance: {fileID: 1743898586}
+--- !u!114 &1435874295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435874294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc97a614d70e24c4bb49593f0ca15074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1435874296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435874294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33581131957e4b648a1533a3e32db33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1743898586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -621,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: d69ab780abc7d1e44944447e2876c97b, type: 2}
     - target: {fileID: 9500000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}

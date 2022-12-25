@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
 
     private float tempEulerX;
 
-    private GameObject camera;
+    private new GameObject camera;
     private GameObject model;
 
     private Vector3 cameraDampVelocity;

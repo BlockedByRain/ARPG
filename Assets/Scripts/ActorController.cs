@@ -13,24 +13,35 @@ public class ActorController : MonoBehaviour
     public float rollVelocity;
     public float jabVelocity;
 
+    [Space(10)]
+    [Header("-----Friction Settings-----")]
+    public PhysicMaterial frictionZero;
+    public PhysicMaterial frictionOne;
+    
 
-    [SerializeField]
+
+
+
     private Animator anim;
     private Rigidbody rb;
 
     private Vector3 planarVec;
     private Vector3 thrustVec;      //跳跃冲量
 
-    [SerializeField]
     private bool lockPlanar=false;      //平面移动开关
 
+    private CapsuleCollider col;
 
+    private float lerpTarget;       //动画权重
+
+    private Vector3 deltaPos;
 
     private void Awake()
     {
         anim = model.GetComponent<Animator>();
         pi = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        col= GetComponent<CapsuleCollider>();
     }
 
 
@@ -44,6 +55,8 @@ public class ActorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         //测试pi
         //print(pi.Dup);
 
@@ -64,7 +77,10 @@ public class ActorController : MonoBehaviour
         }
 
 
-        if (pi.attack)
+
+        //禁用过渡期间的攻击
+        //CheckState("ground")&&!CheckState("roll")&&!anim.IsInTransition(anim.GetLayerIndex("Base Layer"))
+        if (pi.attack && CheckState("Ground") && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
             anim.SetTrigger("Attack");
         }
@@ -83,21 +99,37 @@ public class ActorController : MonoBehaviour
             planarVec = pi.Dmag * model.transform.forward * walkSpeed * ((pi.run) ? runMultiplier : 1.0f);
         }
 
-
-
         
 
     }
 
     private void FixedUpdate()
     {
+        rb.position += deltaPos;
+        
         //不常用的写法
         //rb.position += planarVec * Time.deltaTime;
         rb.velocity = new Vector3(planarVec.x,rb.velocity.y,planarVec.z)+thrustVec;
         thrustVec = Vector3.zero;
+
+        deltaPos = Vector3.zero;
     }
 
 
+    private bool CheckState(string stateName , string layerName="Base Layer")
+    {
+        //是否是查询的状态
+        int layerIndex = anim.GetLayerIndex(layerName);
+        return anim.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName);
+    }
+
+
+
+
+    /// <summary>
+    /// message
+    /// </summary>
+    
     public void OnJumpEnter()
     {
         //Debug.Log("On jump enter");
@@ -131,7 +163,16 @@ public class ActorController : MonoBehaviour
     {
         pi.InputEnabled = true;
         lockPlanar = false;
+        col.material = frictionOne;
     }
+
+
+    public void OnGroundExit()
+    {
+        col.material = frictionZero;
+    }
+
+
 
     public void OnFallEnter()
     {
@@ -166,16 +207,49 @@ public class ActorController : MonoBehaviour
 
     public void OnAttack1hAEnter()
     {
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 1.0f);
+        pi.InputEnabled = false;
+        lerpTarget = 1.0f;
 
     }
 
-    public void OnAttackIdle()
+    public void OnAttack1hAUpdate()
     {
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 0);
+        thrustVec = model.transform.forward * anim.GetFloat("Attack1hAVelocity"); 
+        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
+        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.2f);
+        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
 
     }
 
 
+    public void OnAttackIdleEnter()
+    {
+        pi.InputEnabled = true;
+        lerpTarget = 0f;
+        //anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 0);
+
+    }
+
+    public void OnAttackIdleUpdate()
+    {
+        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
+        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.5f);
+        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
+
+    }
+
+    public void OnUpdateRM(object _deltaPos)
+    {
+        if (CheckState("attack1hC", "Attack"))
+        {
+            //deltaPos += (Vector3)_deltaPos;
+            //print(_deltaPos);
+
+            //动画有问题，写死位移值
+            deltaPos = anim.transform.forward*0.003f;
+
+        }
+        
+    }
 
 }
