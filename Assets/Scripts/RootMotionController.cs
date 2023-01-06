@@ -13,7 +13,9 @@ public class RootMotionController : MonoBehaviour
 
     public void OnAnimatorMove()
     {
+        //print("animator move!");
         SendMessageUpwards("OnUpdateRM", (object)anim.deltaPosition);
+
     }
 
 

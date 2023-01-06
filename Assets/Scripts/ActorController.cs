@@ -6,7 +6,7 @@ public class ActorController : MonoBehaviour
 {
 
     public GameObject model;
-    public PlayerInput pi;
+    public IUserInput pi;
     public float walkSpeed;
     public float runMultiplier;
     public float jumpVelocity;
@@ -38,8 +38,16 @@ public class ActorController : MonoBehaviour
 
     private void Awake()
     {
+        IUserInput[] inputs = GetComponents<IUserInput>();
+        foreach (var input in inputs)
+        {
+            if (input.enabled==true)
+            {
+                pi = input;
+                break;
+            }
+        }
         anim = model.GetComponent<Animator>();
-        pi = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         col= GetComponent<CapsuleCollider>();
     }
@@ -63,6 +71,8 @@ public class ActorController : MonoBehaviour
         //勾股定理，无论任何角度输入都能向前，加速插值平滑
         float targetRunMulti = (pi.run) ? 2.0f : 1.0f;
         anim.SetFloat("Forward", pi.Dmag * Mathf.Lerp(anim.GetFloat("Forward"),targetRunMulti,0.5f));
+
+        anim.SetBool("Defense", pi.defense);
 
         if (rb.velocity.magnitude>1.0f)
         {
@@ -105,14 +115,16 @@ public class ActorController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.position += deltaPos;
-        
+        //rb.position += deltaPos;
+        transform.position+=deltaPos;
+        deltaPos = Vector3.zero;
+
         //不常用的写法
         //rb.position += planarVec * Time.deltaTime;
         rb.velocity = new Vector3(planarVec.x,rb.velocity.y,planarVec.z)+thrustVec;
         thrustVec = Vector3.zero;
 
-        deltaPos = Vector3.zero;
+        
     }
 
 
@@ -151,7 +163,6 @@ public class ActorController : MonoBehaviour
         anim.SetBool("IsGround", true);
     }
 
-
     public void IsNotGround()
     {
         //print("is not on ground");
@@ -166,16 +177,14 @@ public class ActorController : MonoBehaviour
         col.material = frictionOne;
     }
 
-
     public void OnGroundExit()
     {
         col.material = frictionZero;
     }
 
-
-
     public void OnFallEnter()
     {
+        print("aa");
         pi.InputEnabled = false;
         lockPlanar = true;
     }
@@ -187,7 +196,6 @@ public class ActorController : MonoBehaviour
         lockPlanar=true;
     }
 
-
     public void OnJabEnter()
     {
         //thrustVec = model.transform.forward * -jabVelocity;
@@ -196,14 +204,12 @@ public class ActorController : MonoBehaviour
         
     }
 
-
     public void OnJabUpdate()
     {
         //thrustVec = model.transform.forward * -jabVelocity;
         thrustVec = model.transform.forward * anim.GetFloat("JabVelocity");
 
     }
-
 
     public void OnAttack1hAEnter()
     {
@@ -216,7 +222,7 @@ public class ActorController : MonoBehaviour
     {
         thrustVec = model.transform.forward * anim.GetFloat("Attack1hAVelocity"); 
         float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.2f);
+        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.4f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
 
     }
@@ -233,23 +239,22 @@ public class ActorController : MonoBehaviour
     public void OnAttackIdleUpdate()
     {
         float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.5f);
+        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.05f);
         anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
 
     }
 
     public void OnUpdateRM(object _deltaPos)
     {
+        
+
         if (CheckState("attack1hC", "Attack"))
         {
-            //deltaPos += (Vector3)_deltaPos;
-            //print(_deltaPos);
-
-            //动画有问题，写死位移值
-            deltaPos = anim.transform.forward*0.003f;
-
+            //平滑处理
+            //deltaPos += deltaPos + (Vector3)_deltaPos;
+            deltaPos += (0.6f*deltaPos + 0.4f*(Vector3)_deltaPos);
         }
-        
+
     }
 
 }

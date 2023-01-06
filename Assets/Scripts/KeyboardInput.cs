@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class KeyboardInput : IUserInput
 {
-    [Header("-----KeySetting-----")]
+    [Header("-----KeySettings-----")]
     public string KeyUp = "w";
     public string KeyDown = "s";
     public string KeyLeft = "a";
@@ -24,39 +24,39 @@ public class PlayerInput : MonoBehaviour
 
 
 
-    [Header("-----OutputSignal-----")]
-    public float Dup;
-    public float Dright;
-    public float Dmag;      //当前输入向量模
-    public Vector3 Dvec;
+    //[Header("-----OutputSignal-----")]
+    //public float Dup;
+    //public float Dright;
+    //public float Dmag;      //当前输入向量模
+    //public Vector3 Dvec;
 
-    public float Jright;
-    public float Jup;
+    //public float Jright;
+    //public float Jup;
 
 
-    //1 pressing signal
-    [Header("-----pressing signal-----")]
-    public bool run;
-
-    //2 trigger once signal
-    [Header("-----trigger once signal-----")]
-    public bool jump;
-    private bool lastJump;
-
-    public bool attack;
-    private bool lastAttack;
-
-    //3 double trigger
+    ////1 pressing signal
     //[Header("-----pressing signal-----")]
+    //public bool run;
+
+    ////2 trigger once signal
+    //[Header("-----trigger once signal-----")]
+    //public bool jump;
+    //private bool lastJump;
+
+    //public bool attack;
+    //private bool lastAttack;
+
+    ////3 double trigger
+    ////[Header("-----pressing signal-----")]
 
 
 
-    [Header("-----Others-----")]
-    public bool InputEnabled = true;
-    private float TargetDup;
-    private float TargetDright;
-    private float velocityDup;
-    private float velocityDright;
+    //[Header("-----Others-----")]
+    //public bool InputEnabled = true;
+    //private float TargetDup;
+    //private float TargetDright;
+    //private float velocityDup;
+    //private float velocityDright;
 
 
     // Start is called before the first frame update
@@ -97,6 +97,7 @@ public class PlayerInput : MonoBehaviour
         //变化时间，灵敏度
         Dup = Mathf.SmoothDamp(Dup, TargetDup, ref velocityDup, 0.1f);
         Dright = Mathf.SmoothDamp(Dright, TargetDright, ref velocityDright, 0.1f);
+        
         Vector2 tempDAxis=SquareToCircle(Dup,Dright);
         float normalDup = tempDAxis.x;
         float normalDright = tempDAxis.y;
@@ -104,9 +105,11 @@ public class PlayerInput : MonoBehaviour
         Dvec = normalDup * transform.forward + normalDright * transform.right;
 
         run = Input.GetKey(KeyA);
+        defense = Input.GetKey(KeyD);
+
 
         //跳跃
-        bool newJump=Input.GetKey(KeyB);
+        bool newJump =Input.GetKey(KeyB);
         //jump = newJump;
         if (newJump==true && lastJump==false)
         {
@@ -134,17 +137,17 @@ public class PlayerInput : MonoBehaviour
     }
 
 
-    //椭圆映射法解决斜向移动1.414
-    private Vector2 SquareToCircle(float Dup,float Dright)
-    {
-        Vector2 input = new Vector2(Dup, Dright);
-        Vector2 output = Vector2.zero;
-        output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
-        output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
-        return output;
+    ////椭圆映射法解决斜向移动1.414
+    //private Vector2 SquareToCircle(float Dup,float Dright)
+    //{
+    //    Vector2 input = new Vector2(Dup, Dright);
+    //    Vector2 output = Vector2.zero;
+    //    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
+    //    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
+    //    return output;
 
 
-    }
+    //}
 
 
 

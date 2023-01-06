@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public PlayerInput pi;
+    private IUserInput pi;
     public float horizontalSpeed;
     public float verticalSpeed;
 
@@ -26,24 +26,21 @@ public class CameraController : MonoBehaviour
     private Vector3 cameraDampVelocity;
 
 
-    private void Awake()
-    {
-        cameraHandle = transform.parent.gameObject;
-        playerHandle = cameraHandle.transform.parent.gameObject;
-    
-        camera = Camera.main.gameObject;
-        model=playerHandle.GetComponent<ActorController>().model;
-
-
-        camera.transform.position=transform.position;
-        camera.transform.eulerAngles = transform.eulerAngles;
-
-    }
-
 
     // Start is called before the first frame update
     void Start()
     {
+        cameraHandle = transform.parent.gameObject;
+        playerHandle = cameraHandle.transform.parent.gameObject;
+        ActorController ac = playerHandle.GetComponent<ActorController>();
+
+        camera = Camera.main.gameObject;
+        model = ac.model;
+        pi = ac.pi;
+
+
+        camera.transform.position = transform.position;
+        camera.transform.eulerAngles = transform.eulerAngles;
 
     }
 
@@ -77,8 +74,10 @@ public class CameraController : MonoBehaviour
         //ÉãÏñ»ú×·×ÙÐ§¹û
         //camera.transform.position=transform.position;
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
-        camera.transform.eulerAngles = transform.eulerAngles;
-
+        
+        //Ì«½©Ó²£¬Èá»¯·ÀÔÎ
+        //camera.transform.eulerAngles = transform.eulerAngles;
+        camera.transform.LookAt(cameraHandle.transform);
 
     }
 
