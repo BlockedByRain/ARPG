@@ -17,10 +17,20 @@ public class JoystickInput : IUserInput
     public string btnY = "Btn3";
 
     [Header("-----◊Û”“ºÁ-----")]
-    public string LB = "Btn4";
-    public string RB = "Btn5";
+    public string btnLB = "Btn4";
+    public string btnRB = "Btn5";
+
+    [Header("-----”““°∏À-----")]
+    public string btnJstick = "Btn9";
 
 
+    public InputButton buttonA = new InputButton();
+    public InputButton buttonB = new InputButton();
+    public InputButton buttonX = new InputButton();
+    public InputButton buttonY = new InputButton();
+    public InputButton buttonLB = new InputButton();
+    public InputButton buttonRB = new InputButton();
+    public InputButton buttonJstick = new InputButton();
 
 
     //[Header("-----OutputSignal-----")]
@@ -58,8 +68,6 @@ public class JoystickInput : IUserInput
     //private float velocityDright;
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +76,15 @@ public class JoystickInput : IUserInput
 
     // Update is called once per frame
     void Update()
-    {  
+    {
+        buttonA.Tick(Input.GetButton(btnA));
+        buttonB.Tick(Input.GetButton(btnB));
+        buttonX.Tick(Input.GetButton(btnX));
+        buttonY.Tick(Input.GetButton(btnY));
+        buttonLB.Tick(Input.GetButton(btnLB));
+        buttonRB.Tick(Input.GetButton(btnRB));
+        buttonJstick.Tick(Input.GetButton(btnJstick));
+
         //camera–≈∫≈
         Jup = -1* Input.GetAxis(axisJup);
         Jright = Input.GetAxis(axisJright);
@@ -94,35 +110,20 @@ public class JoystickInput : IUserInput
         Dmag = Mathf.Sqrt((normalDup * normalDup) + (normalDright * normalDright));
         Dvec = normalDup * transform.forward + normalDright * transform.right;
 
-        run =Input.GetButton(btnA);
-        defense= Input.GetButton(LB);
-
+        //≈‹∂Ø
+        run = (buttonA.IsPressing && !buttonA.Isdelaying) || buttonA.IsExtending;
+        
+        //∑¿”˘
+        defense = buttonLB.IsPressing;
 
         //Ã¯‘æ
-        bool newJump = Input.GetButton(btnB);
-        //jump = newJump;
-        if (newJump == true && lastJump == false)
-        {
-            jump = true;
-            //Debug.Log("jumping!");
-        }
-        else
-        {
-            jump = false;
-        }
-        lastJump = newJump;
+        jump = buttonB.OnPressed && buttonB.IsExtending;
 
         //π•ª˜
-        bool newAttack = Input.GetButton(btnX);
-        if (newAttack == true && lastAttack == false)
-        {
-            attack = true;
-        }
-        else
-        {
-            attack = false;
-        }
-        lastAttack = newAttack;
+        attack = buttonX.OnPressed;
+
+        //À¯∂®
+        lockon = buttonJstick.OnPressed;
 
     }
 

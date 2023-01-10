@@ -26,6 +26,8 @@ public abstract class IUserInput : MonoBehaviour
 
     public bool attack;
     protected bool lastAttack;
+    public bool roll;
+    public bool lockon;
 
     //3 double trigger
     //[Header("-----pressing signal-----")]
