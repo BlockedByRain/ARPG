@@ -230,7 +230,6 @@ public class ActorController : MonoBehaviour
 
     public void OnFallEnter()
     {
-        print("aa");
         pi.InputEnabled = false;
         lockPlanar = true;
     }

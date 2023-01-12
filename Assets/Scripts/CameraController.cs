@@ -16,6 +16,9 @@ public class CameraController : MonoBehaviour
     public int limitEulerX1 = -35;
     public int limitEulerX2 = 30;
 
+    [Header("锁定距离")]
+    public float lockDistance = 10.0f;
+
     public Image lockDot;
     public bool lockState;
 
@@ -84,7 +87,7 @@ public class CameraController : MonoBehaviour
             cameraHandle.transform.LookAt(tempLookAt);
 
             //太远取消锁定
-            if (Vector3.Distance(model.transform.position,lockTarget.obj.transform.position)>7.5f)
+            if (Vector3.Distance(model.transform.position,lockTarget.obj.transform.position)>lockDistance)
             {
                 lockTarget = null;
                 lockDot.enabled = false;
