@@ -26,8 +26,17 @@ public abstract class IUserInput : MonoBehaviour
 
     public bool attack;
     protected bool lastAttack;
+
     public bool roll;
     public bool lockon;
+
+    public bool dodge;
+
+    public bool lb;
+    public bool rb;
+    public bool lt;
+    public bool rt;
+
 
     //3 double trigger
     //[Header("-----pressing signal-----")]
@@ -53,22 +62,12 @@ public abstract class IUserInput : MonoBehaviour
 
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    protected void UpdateDmagDvec(float normalDup, float normalDright)
     {
-        
+        Dmag = Mathf.Sqrt((normalDup * normalDup) + (normalDright * normalDright));
+        Dvec = normalDup * transform.forward + normalDright * transform.right;
+
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
 
 
 

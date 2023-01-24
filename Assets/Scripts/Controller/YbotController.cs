@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActorController : MonoBehaviour
+public class YbotController : ActorController
 {
-    public GameObject model;
-    public IUserInput pi;
     public CameraController camctl;
     public float walkSpeed;
     public float runMultiplier;
@@ -35,9 +33,12 @@ public class ActorController : MonoBehaviour
 
     private CapsuleCollider col;
 
-    private float lerpTarget;       //动画权重
+    //private float lerpTarget;       //动画权重
 
     private Vector3 deltaPos;
+
+    public bool leftIsShield = true;
+
 
     private void Awake()
     {
@@ -68,10 +69,6 @@ public class ActorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //测试pi
-        //print(pi.Dup);
-
         //勾股定理，无论任何角度输入都能向前，加速插值平滑
         float targetRunMulti = (pi.run) ? 2.0f : 1.0f;
 
@@ -105,9 +102,39 @@ public class ActorController : MonoBehaviour
 
         //禁用过渡期间的攻击
         //CheckState("ground")&&!CheckState("roll")&&!anim.IsInTransition(anim.GetLayerIndex("Base Layer"))
-        if (pi.attack && CheckState("Ground") && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
+        if ((pi.rb || pi.lb) && (CheckState("Ground") || CheckStateTag("attack")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
-            anim.SetTrigger("Attack");
+            //区分左右手
+            if (pi.rb)
+            {
+                anim.SetBool("R0L1", false);
+                anim.SetTrigger("Attack");
+
+            }
+            else if (pi.lb && !leftIsShield)
+            {
+                anim.SetBool("R0L1", true);
+                anim.SetTrigger("Attack");
+
+            }
+        }
+
+        //防御权重
+        if (leftIsShield)
+        {
+            if (CheckState("Ground"))
+            {
+                anim.SetBool("Defense", pi.defense);
+                anim.SetLayerWeight(anim.GetLayerIndex("Defense"), 1);
+            }
+            else
+            {
+                anim.SetBool("Defense", false);
+            }
+        }
+        else
+        {
+            anim.SetLayerWeight(anim.GetLayerIndex("Defense"), 0);
         }
 
         //锁定
@@ -132,7 +159,7 @@ public class ActorController : MonoBehaviour
         }
         else
         {
-            if (trackDirection==false)
+            if (trackDirection == false)
             {
                 model.transform.forward = transform.forward;
 
@@ -178,13 +205,17 @@ public class ActorController : MonoBehaviour
         return anim.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName);
     }
 
-
+    private bool CheckStateTag(string tagName, string layerName = "Base Layer")
+    {
+        //是否是查询的状态
+        int layerIndex = anim.GetLayerIndex(layerName);
+        return anim.GetCurrentAnimatorStateInfo(layerIndex).IsTag(tagName);
+    }
 
 
     /// <summary>
     /// message
     /// </summary>
-
     public void OnJumpEnter()
     {
         //Debug.Log("On jump enter");
@@ -220,7 +251,7 @@ public class ActorController : MonoBehaviour
         lockPlanar = false;
         canAttack = true;
         col.material = frictionOne;
-        trackDirection=false;
+        trackDirection = false;
     }
 
     public void OnGroundExit()
@@ -239,7 +270,7 @@ public class ActorController : MonoBehaviour
         thrustVec = new Vector3(0, rollVelocity, 0);
         pi.InputEnabled = false;
         lockPlanar = true;
-        trackDirection=true;
+        trackDirection = true;
     }
 
     public void OnJabEnter()
@@ -260,41 +291,53 @@ public class ActorController : MonoBehaviour
     public void OnAttack1hAEnter()
     {
         pi.InputEnabled = false;
-        lerpTarget = 1.0f;
+        //lerpTarget = 1.0f;
 
     }
 
     public void OnAttack1hAUpdate()
     {
         thrustVec = model.transform.forward * anim.GetFloat("Attack1hAVelocity");
-        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.4f);
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
+
+        //float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
+        //currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.4f);
+        //anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
 
     }
 
 
     public void OnAttackIdleEnter()
     {
-        pi.InputEnabled = true;
-        lerpTarget = 0f;
+        //pi.InputEnabled = true;
+        //lerpTarget = 0f;
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 0);
 
     }
 
     public void OnAttackIdleUpdate()
     {
-        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.05f);
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
+        //float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
+        //currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.05f);
+        //anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
 
     }
+
+    public void OnHitEnter()
+    {
+        pi.InputEnabled = false;
+    }
+
+
+
+
+
+
 
     public void OnUpdateRM(object _deltaPos)
     {
 
 
-        if (CheckState("attack1hC", "Attack"))
+        if (CheckState("attack1hC"))
         {
             //平滑处理
             //deltaPos += deltaPos + (Vector3)_deltaPos;

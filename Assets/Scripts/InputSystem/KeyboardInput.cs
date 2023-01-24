@@ -5,16 +5,25 @@ using UnityEngine;
 public class KeyboardInput : IUserInput
 {
     [Header("-----KeySettings-----")]
+    [Header("-----移动-----")]
     public string KeyUp = "w";
     public string KeyDown = "s";
     public string KeyLeft = "a";
     public string KeyRight = "d";
 
+    [Header("-----操作键位-----")]
     public string KeyRun;
     public string KeyJump;
     public string KeyAttack;
     public string KeyDefense;
     public string KeyLock;
+    public string KeyDodge;
+
+    [Header("-----手柄适配-----")]
+    public string KeyRB;
+    public string KeyRT;
+    public string KeyLB;
+    public string KeyLT;
 
     [Space(10)]
     [Header("-----CameraSettings-----")]
@@ -24,7 +33,7 @@ public class KeyboardInput : IUserInput
     public string keyJDown;
 
 
-    public Dictionary<InputButton,string> buttonList =new Dictionary<InputButton, string>();
+    public Dictionary<InputButton, string> buttonList = new Dictionary<InputButton, string>();
 
 
     public InputButton buttonA = new InputButton();
@@ -32,6 +41,12 @@ public class KeyboardInput : IUserInput
     public InputButton buttonC = new InputButton();
     public InputButton buttonD = new InputButton();
     public InputButton buttonE = new InputButton();
+    public InputButton buttonF = new InputButton();
+
+    public InputButton buttonRB = new InputButton();
+    public InputButton buttonRT = new InputButton();
+    public InputButton buttonLB = new InputButton();
+    public InputButton buttonLT = new InputButton();
 
 
     [Header("-----MouseSettings-----")]
@@ -43,65 +58,30 @@ public class KeyboardInput : IUserInput
 
 
 
-
-    //[Header("-----OutputSignal-----")]
-    //public float Dup;
-    //public float Dright;
-    //public float Dmag;      //当前输入向量模
-    //public Vector3 Dvec;
-
-    //public float Jright;
-    //public float Jup;
-
-
-    ////1 pressing signal
-    //[Header("-----pressing signal-----")]
-    //public bool run;
-
-    ////2 trigger once signal
-    //[Header("-----trigger once signal-----")]
-    //public bool jump;
-    //private bool lastJump;
-
-    //public bool attack;
-    //private bool lastAttack;
-
-    ////3 double trigger
-    ////[Header("-----pressing signal-----")]
-
-
-
-    //[Header("-----Others-----")]
-    //public bool InputEnabled = true;
-    //private float TargetDup;
-    //private float TargetDright;
-    //private float velocityDup;
-    //private float velocityDright;
-
-
     // Start is called before the first frame update
-
     private void Awake()
     {
-        buttonList.Add(buttonA,KeyRun);
-        buttonList.Add(buttonB,KeyJump);
-        buttonList.Add(buttonC,KeyAttack);
-        buttonList.Add(buttonD,KeyDefense);
-        buttonList.Add(buttonE,KeyLock);
+        //记录所有按键
+        buttonList.Add(buttonA, KeyRun);
+        buttonList.Add(buttonB, KeyJump);
+        buttonList.Add(buttonC, KeyAttack);
+        buttonList.Add(buttonD, KeyDefense);
+        buttonList.Add(buttonE, KeyLock);
+        buttonList.Add(buttonF, KeyDodge);
+
+        buttonList.Add(buttonLB, KeyRB);
+        buttonList.Add(buttonLT, KeyRT);
+        buttonList.Add(buttonRB, KeyLB);
+        buttonList.Add(buttonRT, KeyLT);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        buttonA.Tick(Input.GetKey(KeyRun));
-        buttonB.Tick(Input.GetKey(KeyJump));
-        buttonC.Tick(Input.GetKey(KeyAttack));
-        buttonD.Tick(Input.GetKey(KeyDefense));
-        buttonE.Tick(Input.GetKey(KeyLock));
-
 
         //Tick所有按键
-        //TickButtonList(buttonList);
+        TickButtonList(buttonList);
 
 
         //camera信号
@@ -145,33 +125,29 @@ public class KeyboardInput : IUserInput
         //跳跃
         //jump = buttonB.OnPressed && buttonB.IsExtending;
         jump = buttonB.OnPressed;
-
         //攻击
         attack = buttonC.OnPressed;
         //防御
         defense = buttonD.IsPressing;
         //锁定
         lockon = buttonE.OnPressed;
+        //闪避
+        dodge = buttonF.OnPressed;
+
+        rb = buttonRB.OnPressed;
+        rt = buttonRT.OnPressed;
+        lb = buttonLB.OnPressed;
+        lt = buttonLT.OnPressed;
+
+
 
     }
 
 
-    ////椭圆映射法解决斜向移动1.414
-    //private Vector2 SquareToCircle(float Dup,float Dright)
-    //{
-    //    Vector2 input = new Vector2(Dup, Dright);
-    //    Vector2 output = Vector2.zero;
-    //    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
-    //    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
-    //    return output;
 
-
-    //}
-
-
-    private void TickButtonList(Dictionary<InputButton,string> list)
+    private void TickButtonList(Dictionary<InputButton, string> list)
     {
-        foreach (KeyValuePair<InputButton,string> pair in list)
+        foreach (KeyValuePair<InputButton, string> pair in list)
         {
             pair.Key.Tick(Input.GetKey(pair.Value));
         }

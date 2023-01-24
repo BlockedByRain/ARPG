@@ -23,10 +23,13 @@ public class GhostEffect : MonoBehaviour
     [Header("生成残影与残影之间的时间间隔")]
     public float spawnTimeval;
 
+    [Header("渲染类型")]
+    public RenderingMode mode;
+
     //生成残影的时间计时器
     private float spawnTimer;
 
-    [Header("残影颜色")]
+    [Header("残影颜色(注意透明度)")]
     public Color ghostColor;
 
     private SkinnedMeshRenderer smr;
@@ -39,13 +42,9 @@ public class GhostEffect : MonoBehaviour
     private void Awake()
     {
         smr = GetComponent<SkinnedMeshRenderer>();
-        //print(smr.name);
-        //print(smr.sharedMesh.name);
-
 
         mf = GetComponent<MeshFilter>();
 
-        //mr = GetComponent<MeshRenderer>();
 
 
     }
@@ -54,6 +53,7 @@ public class GhostEffect : MonoBehaviour
     {
         if (openGhostEffect == false)
         {
+            ghostList.Clear();
             return;
         }
 
@@ -61,9 +61,8 @@ public class GhostEffect : MonoBehaviour
         DrawGhost();
     }
 
-    /// <summary>
-    /// 创建残影
-    /// </summary>
+
+    // 创建残影
     private void CreateGhost()
     {
         //创建出残影并加入到残影列表中
@@ -74,23 +73,16 @@ public class GhostEffect : MonoBehaviour
             //获取当前mesh
             Mesh mesh = new Mesh();
             smr.BakeMesh(mesh);
-            //mesh = mf.mesh;
 
 
             //获取当前材质           
             Material mat = new Material(smr.material);
 
-
-            print("matcolor =" + mat.color+ "ghostcolor =" + ghostColor);
             //上色
             mat.color = ghostColor;
 
-            print("matcolor =" + mat.color + "ghostcolor =" + ghostColor);
-
-
-
             //设置渲染模式
-            SetMaterialRenderingMode(mat, RenderingMode.Fade);
+            SetMaterialRenderingMode(mat, mode);
 
             //加入残影列表
             ghostList.Add(new Ghost(mesh, mat, transform.localToWorldMatrix, Time.realtimeSinceStartup));
@@ -101,9 +93,7 @@ public class GhostEffect : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 绘制残影
-    /// </summary>
+    // 绘制残影
     private void DrawGhost()
     {
         for (int i = 0; i < ghostList.Count; i++)
@@ -126,16 +116,12 @@ public class GhostEffect : MonoBehaviour
                 ghostList[i].mat.color = tempColor;
 
                 Graphics.DrawMesh(ghostList[i].mesh, ghostList[i].matrix, ghostList[i].mat, gameObject.layer);
-                //print(ghostList[i].mesh.name);
-                //print(ghostList[i].matrix);
-                //print(ghostList[i].mat);
+
             }
         }
     }
 
-    /// <summary>
-    /// 设置纹理渲染模式
-    /// </summary>
+    // 设置纹理渲染模式
     private void SetMaterialRenderingMode(Material material, RenderingMode renderingMode)
     {
         switch (renderingMode)
@@ -180,9 +166,7 @@ public class GhostEffect : MonoBehaviour
     }
 }
 
-/// <summary>
-/// 每一个残影的数据类
-/// </summary>
+//残影数据类
 public class Ghost : Object
 {
     public Mesh mesh;

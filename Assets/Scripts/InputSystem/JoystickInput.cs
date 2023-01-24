@@ -20,6 +20,10 @@ public class JoystickInput : IUserInput
     public string btnLB = "Btn4";
     public string btnRB = "Btn5";
 
+    [Header("-----左右扳机-----")]
+    public string btnLT = "axis3";
+    public string btnRT = "axis3";
+
     [Header("-----右摇杆-----")]
     public string btnJstick = "Btn9";
 
@@ -33,45 +37,10 @@ public class JoystickInput : IUserInput
     public InputButton buttonJstick = new InputButton();
 
 
-    //[Header("-----OutputSignal-----")]
-    //public float Dup;
-    //public float Dright;
-    //public float Dmag;      //当前输入向量模
-    //public Vector3 Dvec;
-
-    //public float Jright;
-    //public float Jup;
-
-
-    ////1 pressing signal
-    //[Header("-----pressing signal-----")]
-    //public bool run;
-
-    ////2 trigger once signal
-    //[Header("-----trigger once signal-----")]
-    //public bool jump;
-    //private bool lastJump;
-
-    //public bool attack;
-    //private bool lastAttack;
-
-    ////3 double trigger
-    ////[Header("-----pressing signal-----")]
-
-
-
-    //[Header("-----Others-----")]
-    //public bool InputEnabled = true;
-    //private float TargetDup;
-    //private float TargetDright;
-    //private float velocityDup;
-    //private float velocityDright;
-
-
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -83,15 +52,19 @@ public class JoystickInput : IUserInput
         buttonY.Tick(Input.GetButton(btnY));
         buttonLB.Tick(Input.GetButton(btnLB));
         buttonRB.Tick(Input.GetButton(btnRB));
+
+
         buttonJstick.Tick(Input.GetButton(btnJstick));
 
         //camera信号
-        Jup = -1* Input.GetAxis(axisJup);
+        Jup = -1 * Input.GetAxis(axisJup);
         Jright = Input.GetAxis(axisJright);
 
-
+        //move信号
         TargetDup = Input.GetAxis(axisY);
         TargetDright = Input.GetAxis(axisX);
+
+
 
         //未启用时置零
         if (InputEnabled == false)
@@ -112,7 +85,7 @@ public class JoystickInput : IUserInput
 
         //跑动
         run = (buttonA.IsPressing && !buttonA.Isdelaying) || buttonA.IsExtending;
-        
+
         //防御
         defense = buttonLB.IsPressing;
 
@@ -120,25 +93,22 @@ public class JoystickInput : IUserInput
         jump = buttonB.OnPressed && buttonB.IsExtending;
 
         //攻击
-        attack = buttonX.OnPressed;
+        //attack = buttonX.OnPressed;
 
         //锁定
         lockon = buttonJstick.OnPressed;
 
+        rb = buttonRB.OnPressed;
+        lb = buttonLB.OnPressed;
+
+        //扳机信号
+        lt = Input.GetAxisRaw(btnLT) < 0 ? true : false;
+        rt = Input.GetAxisRaw(btnRT) > 0 ? true : false;
+
+
     }
 
 
-    ////椭圆映射法解决斜向移动1.414
-    //private Vector2 SquareToCircle(float Dup, float Dright)
-    //{
-    //    Vector2 input = new Vector2(Dup, Dright);
-    //    Vector2 output = Vector2.zero;
-    //    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
-    //    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
-    //    return output;
-
-
-    //}
 
 
 
