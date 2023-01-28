@@ -92,6 +92,9 @@ public class JoystickInput : IUserInput
         //ÌøÔ¾
         jump = buttonB.OnPressed && buttonB.IsExtending;
 
+        //ºóÌø
+        roll = buttonX.OnReleased && buttonX.Isdelaying;
+
         //¹¥»÷
         //attack = buttonX.OnPressed;
 

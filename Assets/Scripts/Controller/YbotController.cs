@@ -102,7 +102,7 @@ public class YbotController : ActorController
 
         //禁用过渡期间的攻击
         //CheckState("ground")&&!CheckState("roll")&&!anim.IsInTransition(anim.GetLayerIndex("Base Layer"))
-        if ((pi.rb || pi.lb) && (CheckState("Ground") || CheckStateTag("attack")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
+        if ((pi.rb || pi.lb) && (CheckState("Ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
             //区分左右手
             if (pi.rb)
@@ -118,11 +118,37 @@ public class YbotController : ActorController
 
             }
         }
-
-        //防御权重
-        if (leftIsShield)
+        if ((pi.rt || pi.lt) && (CheckState("Ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
-            if (CheckState("Ground"))
+            if (pi.rt)
+            {
+                // 右手重攻击
+            }
+            else
+            {
+                if (!leftIsShield)
+                {
+                    //左手重攻击
+                }
+                else
+                {
+                    //盾反
+                    anim.SetTrigger("CounterBack");
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+            //防御权重
+            if (leftIsShield)
+        {
+            if (CheckState("Ground") || CheckState("Blocked"))
             {
                 anim.SetBool("Defense", pi.defense);
                 anim.SetLayerWeight(anim.GetLayerIndex("Defense"), 1);
@@ -130,6 +156,8 @@ public class YbotController : ActorController
             else
             {
                 anim.SetBool("Defense", false);
+                anim.SetLayerWeight(anim.GetLayerIndex("Defense"), 0);
+
             }
         }
         else
@@ -198,14 +226,14 @@ public class YbotController : ActorController
     }
 
 
-    private bool CheckState(string stateName, string layerName = "Base Layer")
+    public bool CheckState(string stateName, string layerName = "Base Layer")
     {
         //是否是查询的状态
         int layerIndex = anim.GetLayerIndex(layerName);
         return anim.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName);
     }
 
-    private bool CheckStateTag(string tagName, string layerName = "Base Layer")
+    public bool CheckStateTag(string tagName, string layerName = "Base Layer")
     {
         //是否是查询的状态
         int layerIndex = anim.GetLayerIndex(layerName);
@@ -273,6 +301,7 @@ public class YbotController : ActorController
         trackDirection = true;
     }
 
+
     public void OnJabEnter()
     {
         //thrustVec = model.transform.forward * -jabVelocity;
@@ -322,16 +351,42 @@ public class YbotController : ActorController
 
     }
 
+    public void OnAttackExit()
+    {
+        model.SendMessage("WeaponDisable");
+    }
+
     public void OnHitEnter()
+    {
+        pi.InputEnabled = false;
+        planarVec = Vector3.zero;
+    }
+
+    public void OnBlockedEnter()
     {
         pi.InputEnabled = false;
     }
 
 
 
+    public void OnDieEnter()
+    {
+        pi.InputEnabled = false;
+        planarVec = Vector3.zero;
+    }
 
+    public void OnStunnedEnter()
+    {
+        pi.InputEnabled = false;
+        planarVec = Vector3.zero;
+    }
 
-
+    
+    public void OnCounterBackEnter()
+    {
+        pi.InputEnabled = false;
+        planarVec = Vector3.zero;
+    }
 
     public void OnUpdateRM(object _deltaPos)
     {
@@ -344,6 +399,14 @@ public class YbotController : ActorController
             deltaPos += (0.6f * deltaPos + 0.4f * (Vector3)_deltaPos);
         }
 
+    }
+
+
+
+
+    public void IssueTrigger(string triggerName)
+    {
+        anim.SetTrigger(triggerName);
     }
 
 }

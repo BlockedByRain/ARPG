@@ -413,7 +413,7 @@ ModelImporter:
     second: //RootNode
   - first:
       74: 7400000
-    second: Slash3
+    second: attack1hC
   - first:
       95: 9500000
     second: //RootNode
@@ -433,7 +433,12 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
-    animationRetargetingWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'mixamo.com':\n\tRightLowerLeg
+      average position error 0.2 mm and maximum position error 1.3 mm at time 2:
+      4 (60.4%) Frame 64\n\tLeftLowerArm average position error 0.8 mm and maximum
+      position error 6.2 mm at time 0:12 (11.3%) Frame 12\n\tRightLowerArm average
+      position error 0.8 mm and maximum position error 10.0 mm at time 1:18 (45.3%)
+      Frame 48\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -446,7 +451,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Slash3
+      name: attack1hC
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -469,7 +474,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.41830137
+        functionName: WeaponEnable
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6977022
+        functionName: WeaponDisable
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -18,7 +18,7 @@ public class InputButton
 
 
     private InputTimer extTimer = new InputTimer();
-    private InputTimer delayTimer =new InputTimer();
+    private InputTimer delayTimer = new InputTimer();
 
     public void Tick(bool input)
     {
@@ -38,7 +38,7 @@ public class InputButton
             if (curState == true)
             {
                 OnPressed = true;
-                StartTimer(delayTimer,delayDurationTime);
+                StartTimer(delayTimer, delayDurationTime);
             }
             else
             {
@@ -47,14 +47,14 @@ public class InputButton
             }
 
         }
-        
+
         //为触发时段时为true；
         if (extTimer.state == InputTimer.STATE.RUN)
         {
             IsExtending = true;
         }
 
-        if (delayTimer.state==InputTimer.STATE.RUN)
+        if (delayTimer.state == InputTimer.STATE.RUN)
         {
             Isdelaying = true;
         }

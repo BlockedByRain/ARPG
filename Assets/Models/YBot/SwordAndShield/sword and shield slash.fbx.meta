@@ -413,7 +413,7 @@ ModelImporter:
     second: //RootNode
   - first:
       74: 7400000
-    second: slash1
+    second: attack1hA
   - first:
       95: 9500000
     second: //RootNode
@@ -446,7 +446,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: slash1
+      name: attack1hA
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -498,6 +498,20 @@ ModelImporter:
       - time: 0.45358196
         functionName: ResetTrigger
         data: Attack
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.34876028
+        functionName: WeaponEnable
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.58842975
+        functionName: WeaponEnable
+        data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
