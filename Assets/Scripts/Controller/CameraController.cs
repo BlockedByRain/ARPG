@@ -36,6 +36,13 @@ public class CameraController : MonoBehaviour
 
     private LockTatget lockTarget;
 
+    //距离显示
+    public bool showDistance;
+    public Image img;
+    public Transform target;
+    public Text meter;
+    public Vector3 offset;
+
 
     // Start is called before the first frame update
     void Start()
@@ -88,6 +95,8 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            target=lockTarget.obj.transform;
+
             //锁定点位置
             if (!isAI)
             {
@@ -109,6 +118,12 @@ public class CameraController : MonoBehaviour
                 LockProcessA(null, false, false, isAI);
 
             }
+
+            //死亡解除锁定
+            if (lockTarget.targetAm !=null && lockTarget.targetAm.sm.isDie)
+            {
+                LockProcessA(null, false, false, isAI);
+            }
         }
 
 
@@ -124,6 +139,10 @@ public class CameraController : MonoBehaviour
 
         }
 
+        if (showDistance)
+        {
+            ShowDistance();
+        }
 
     }
 
@@ -176,16 +195,55 @@ public class CameraController : MonoBehaviour
     {
         public GameObject obj;
         public float halfHeight;
+        public ActorManager targetAm;
 
         public LockTatget(GameObject obj,float halfHeight)
         {
             this.obj = obj;
             this.halfHeight = halfHeight;
+            targetAm = obj.GetComponent<ActorManager>();
         }
 
 
 
     }
+
+
+
+    public void ShowDistance()
+    {
+        //设置附表边界
+        //Graphic.GetPixelAdjustedRect 返回最接近 Graphic RectTransform 的像素精准矩形,
+        float minX = img.GetPixelAdjustedRect().width / 2;
+        float maxX = Screen.width - minX;
+
+        float minY = img.GetPixelAdjustedRect().height / 2;
+        float maxY = Screen.height - minY;
+
+        Vector2 postion = Camera.main.WorldToScreenPoint(target.position + offset);
+
+        //超出屏幕直接置边缘
+        if (Vector3.Dot((target.position - transform.position), transform.forward) < 0)
+        {
+            if (postion.x < Screen.width / 2)
+            {
+                postion.x = maxX;
+            }
+            else
+            {
+                postion.x = minX;
+            }
+        }
+
+        postion.x = Mathf.Clamp(postion.x, minX, maxX);
+        postion.y = Mathf.Clamp(postion.y, minY, maxY);
+
+        img.transform.position = postion;
+        meter.text = ((int)Vector3.Distance(target.position, transform.position)).ToString() + "M";
+
+
+    }
+
 
 
 }

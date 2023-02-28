@@ -69,10 +69,10 @@ public class KeyboardInput : IUserInput
         buttonList.Add(buttonE, KeyLock);
         buttonList.Add(buttonF, KeyDodge);
 
-        buttonList.Add(buttonLB, KeyRB);
-        buttonList.Add(buttonLT, KeyRT);
-        buttonList.Add(buttonRB, KeyLB);
-        buttonList.Add(buttonRT, KeyLT);
+        //buttonList.Add(buttonLB, KeyRB);
+        //buttonList.Add(buttonLT, KeyRT);
+        //buttonList.Add(buttonRB, KeyLB);
+        //buttonList.Add(buttonRT, KeyLT);
 
     }
 
@@ -149,6 +149,7 @@ public class KeyboardInput : IUserInput
     {
         foreach (KeyValuePair<InputButton, string> pair in list)
         {
+            print(pair);
             pair.Key.Tick(Input.GetKey(pair.Value));
         }
     }

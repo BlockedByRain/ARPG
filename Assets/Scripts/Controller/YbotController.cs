@@ -145,8 +145,8 @@ public class YbotController : ActorController
 
 
 
-            //防御权重
-            if (leftIsShield)
+        //防御权重
+        if (leftIsShield)
         {
             if (CheckState("Ground") || CheckState("Blocked"))
             {
@@ -360,6 +360,7 @@ public class YbotController : ActorController
     {
         pi.InputEnabled = false;
         planarVec = Vector3.zero;
+        model.SendMessage("WeaponDisable");
     }
 
     public void OnBlockedEnter()
@@ -373,6 +374,7 @@ public class YbotController : ActorController
     {
         pi.InputEnabled = false;
         planarVec = Vector3.zero;
+        model.SendMessage("WeaponDisable");
     }
 
     public void OnStunnedEnter()
@@ -381,11 +383,16 @@ public class YbotController : ActorController
         planarVec = Vector3.zero;
     }
 
-    
+
     public void OnCounterBackEnter()
     {
         pi.InputEnabled = false;
         planarVec = Vector3.zero;
+    }
+
+    public void OnCounterBackExit()
+    {
+        model.SendMessage("CounterBackDisable");
     }
 
     public void OnUpdateRM(object _deltaPos)

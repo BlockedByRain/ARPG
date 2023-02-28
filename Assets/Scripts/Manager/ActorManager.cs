@@ -47,33 +47,36 @@ public class ActorManager : MonoBehaviour
         return tempInstance;
     }
 
-    public void TryDoDamage()
+    public void TryDoDamage(WeaponController targetWc,bool attackValid,bool counterValid)
     {
-        if (sm.isImmortal)
+        if (sm.isCounterBackSuccess)
+        {
+            if (counterValid)
+            {
+                //print(targetWc.name);
+                targetWc.wm.am.Stunned();
+            }
+        }
+        else if(sm.isCounterBackFailure){
+            if (attackValid)
+            {
+                HitOrDie(false);
+            }
+        }
+        else if (sm.isImmortal)
         {
             //do nothing
         }
         else if (sm.isBlocked)
         {
+
             Blocked();
         }
         else
         {
-            if (sm.HP<=0)
+            if (attackValid)
             {
-
-            }
-            else
-            {
-                sm.AddHP(-5);
-                if (sm.HP > 0)
-                {
-                    Hit();
-                }
-                else
-                {
-                    Die();
-                }
+                HitOrDie(false);
             }
         }
 
@@ -83,6 +86,34 @@ public class ActorManager : MonoBehaviour
     public void Hit()
     {
         yc.IssueTrigger("Hit");
+    }
+
+    public void Stunned()
+    {
+        yc.IssueTrigger("Stunned");
+    }
+
+    public void HitOrDie(bool doHitAnimation)
+    {
+        if (sm.HP <= 0)
+        {
+
+        }
+        else
+        {
+            sm.AddHP(-5);
+            if (sm.HP > 0)
+            {
+                if (doHitAnimation)
+                {
+                    Hit();
+                }
+            }
+            else
+            {
+                Die();
+            }
+        }
     }
 
     public void Blocked()
@@ -101,4 +132,9 @@ public class ActorManager : MonoBehaviour
         yc.camctl.enabled = false;
     }
 
+
+    public void SetIsCounterBack(bool value)
+    {
+        sm.isCounterBackEnable = value;
+    }
 }

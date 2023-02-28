@@ -18,11 +18,15 @@ public class StateManager : IActorManagerInterface
     public bool isDie;
     public bool isBlocked;
     public bool isDefense;
+    public bool isCounterBack;      //关联状态
+    public bool isCounterBackEnable;    //关联动画事件
 
 
     [Header("二阶状态")]
     public bool isAllowDefense;
     public bool isImmortal;
+    public bool isCounterBackSuccess;
+    public bool isCounterBackFailure;
 
 
     private void Start()
@@ -43,7 +47,12 @@ public class StateManager : IActorManagerInterface
         isHit = am.yc.CheckState("hit");
         isDie = am.yc.CheckState("die");
         isBlocked = am.yc.CheckState("blocked");
-        
+
+        isCounterBack = am.yc.CheckState("counterBack");
+        isCounterBackSuccess = isCounterBackEnable;
+        isCounterBackFailure = isCounterBack && !isCounterBackEnable; ;
+
+
         isAllowDefense = isGround || isBlocked;
         isDefense = isAllowDefense && am.yc.CheckState("defense1h", "Defense");
         isImmortal = isRoll || isJab;
@@ -55,4 +64,8 @@ public class StateManager : IActorManagerInterface
         HP = Mathf.Clamp(HP, 0, HPMax);
 
     }
+
+
+
+
 }

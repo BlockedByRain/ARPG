@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class WeaponManager : IActorManagerInterface
 {
 
@@ -21,17 +22,17 @@ public class WeaponManager : IActorManagerInterface
 
         wcL = BindWeaponController(whL);
         wcR = BindWeaponController(whR);
-    
-    
+
+
     }
 
     public WeaponController BindWeaponController(GameObject targetObj)
     {
         WeaponController tempWc;
-        tempWc= targetObj.GetComponent<WeaponController>();
-        if (tempWc==null)
+        tempWc = targetObj.GetComponent<WeaponController>();
+        if (tempWc == null)
         {
-            tempWc=targetObj.AddComponent<WeaponController>();
+            tempWc = targetObj.AddComponent<WeaponController>();
         }
         tempWc.wm = this;
 
@@ -60,5 +61,17 @@ public class WeaponManager : IActorManagerInterface
         weaponColL.enabled = false;
         weaponColR.enabled = false;
     }
+
+
+    public void CounterBackEnable()
+    {
+        am.SetIsCounterBack(true);
+    }
+
+    public void CounterBackDisable()
+    {
+        am.SetIsCounterBack(false);
+    }
+
 
 }
