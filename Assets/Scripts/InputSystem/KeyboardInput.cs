@@ -149,7 +149,7 @@ public class KeyboardInput : IUserInput
     {
         foreach (KeyValuePair<InputButton, string> pair in list)
         {
-            print(pair);
+            //print(pair);
             pair.Key.Tick(Input.GetKey(pair.Value));
         }
     }
