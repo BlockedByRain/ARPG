@@ -8,6 +8,21 @@ public class MonoSingleton<T> : SerializedMonoBehaviour where T : MonoSingleton<
 {
     private static T _instance;
 
+    private bool alive = true;
+
+    public static bool isAlive
+    {
+        get
+        {
+            if (_instance == null)
+                return false;
+            return _instance.alive;
+        }
+    }
+
+
+
+
     /// <summary>
     /// 单例实例
     /// </summary>
@@ -15,6 +30,12 @@ public class MonoSingleton<T> : SerializedMonoBehaviour where T : MonoSingleton<
     {
         get
         {
+            //不启用时直接返回空
+            if (!isAlive)
+            {
+                return null;
+            }
+
             // 如果已经存在单例实例，则直接返回
             if (_instance != null)
                 return _instance;
@@ -69,7 +90,10 @@ public class MonoSingleton<T> : SerializedMonoBehaviour where T : MonoSingleton<
     /// </summary>
     protected virtual void OnDestroy()
     {
-        if (_instance == this)
-            _instance = null;
+        alive = false;
+
+        //会造成报错的写法，弃用
+        //if (_instance == this)
+        //    _instance = null;
     }
 }
