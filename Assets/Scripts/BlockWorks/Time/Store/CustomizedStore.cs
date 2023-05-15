@@ -48,11 +48,15 @@ public class CustomizedStore : TimeStore
     }
     protected override void OnDestroy()
     {
+        if (TimeController.Instance!=null)
+        {
+            TimeController.Instance.Remove(this);
+            TimeController.Instance.OnRecallEndEvent -= TimeStoreOver;
+            TimeController.Instance.OnRecallEvent -= RecallTick;
+            TimeController.Instance.OnRecordEvent -= RecordTick;
 
-        TimeController.Instance.Remove(this);
-        TimeController.Instance.OnRecallEndEvent -= TimeStoreOver;
-        TimeController.Instance.OnRecallEvent -= RecallTick;
-        TimeController.Instance.OnRecordEvent -= RecordTick;
+        }
+
 
         foreach (var layer in runTimeLayers)
         {

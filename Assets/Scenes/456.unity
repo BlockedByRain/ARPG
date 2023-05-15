@@ -727,9 +727,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  record: 273
-  stepBack: 276
-  cancel: 274
+  record: 261
+  stepBack: 260
+  cancel: 258
 --- !u!4 &1397502058
 Transform:
   m_ObjectHideFlags: 0

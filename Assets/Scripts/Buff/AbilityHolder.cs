@@ -50,7 +50,9 @@ public class AbilityHolder : MonoBehaviour
                 }
                 else
                 {
-                    state = AbilityState.active;
+                    state = AbilityState.ready;
+
+                    Debug.Log(ability.name+"is ready");
                 }
                 break;
 

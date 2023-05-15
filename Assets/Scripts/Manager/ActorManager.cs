@@ -49,18 +49,29 @@ public class ActorManager : MonoBehaviour
 
     public void TryDoDamage(WeaponController targetWc,bool attackValid,bool counterValid)
     {
+        Debug.Log("sm.isCounterBackSuccess:"+sm.isCounterBackSuccess);
+
+        Debug.Log("sm.isCounterBackFailure:" + sm.isCounterBackFailure);
+
+        Debug.Log(targetWc.name);
+
+        Debug.Log("attackValid:" + attackValid);
+
+        Debug.Log("sm.isBlocked:" + sm.isBlocked);
+
+        Debug.Log("counterValid:" + counterValid);
+        
         if (sm.isCounterBackSuccess)
         {
             if (counterValid)
             {
-                //print(targetWc.name);
                 targetWc.wm.am.Stunned();
             }
         }
         else if(sm.isCounterBackFailure){
             if (attackValid)
             {
-                HitOrDie(false);
+                HitOrDie(true);
             }
         }
         else if (sm.isImmortal)
@@ -76,7 +87,7 @@ public class ActorManager : MonoBehaviour
         {
             if (attackValid)
             {
-                HitOrDie(false);
+                HitOrDie(true);
             }
         }
 

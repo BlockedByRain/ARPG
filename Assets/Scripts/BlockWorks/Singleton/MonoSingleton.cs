@@ -10,7 +10,7 @@ public class MonoSingleton<T> : SerializedMonoBehaviour where T : MonoSingleton<
 
     private bool alive = true;
 
-    public static bool isAlive
+    public static bool IsAlive
     {
         get
         {
@@ -31,7 +31,7 @@ public class MonoSingleton<T> : SerializedMonoBehaviour where T : MonoSingleton<
         get
         {
             //不启用时直接返回空
-            if (!isAlive)
+            if (!IsAlive)
             {
                 return null;
             }

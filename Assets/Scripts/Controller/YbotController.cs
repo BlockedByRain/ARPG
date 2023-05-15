@@ -17,7 +17,7 @@ public class YbotController : ActorController
     public PhysicMaterial frictionOne;
 
 
-
+    private GhostEffectController ghostEffectController;
 
 
     private Animator anim;
@@ -44,6 +44,7 @@ public class YbotController : ActorController
     {
         IUserInput[] inputs = GetComponents<IUserInput>();
         camctl = GetComponentInChildren<CameraController>();
+        ghostEffectController = GetComponentInChildren<GhostEffectController>();
 
         foreach (var input in inputs)
         {
@@ -104,10 +105,13 @@ public class YbotController : ActorController
         //CheckState("ground")&&!CheckState("roll")&&!anim.IsInTransition(anim.GetLayerIndex("Base Layer"))
         if ((pi.rb || pi.lb) && (CheckState("Ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
-            //区分左右手
-            if (pi.rb)
+
+                //区分左右手
+                if (pi.rb)
             {
                 anim.SetBool("R0L1", false);
+                //Debug.Log("rb:"+ pi.rb);
+                //Debug.Log("lb:" + pi.lb);
                 anim.SetTrigger("Attack");
 
             }
@@ -120,6 +124,7 @@ public class YbotController : ActorController
         }
         if ((pi.rt || pi.lt) && (CheckState("Ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack == true && !CheckState("roll") && !anim.IsInTransition(anim.GetLayerIndex("Base Layer")))
         {
+
             if (pi.rt)
             {
                 // 右手重攻击
@@ -137,10 +142,6 @@ public class YbotController : ActorController
                 }
             }
         }
-
-
-
-
 
 
 
@@ -203,10 +204,6 @@ public class YbotController : ActorController
 
             }
         }
-
-
-
-
     }
 
     private void FixedUpdate()
@@ -299,6 +296,10 @@ public class YbotController : ActorController
         pi.InputEnabled = false;
         lockPlanar = true;
         trackDirection = true;
+
+
+        SwitchGhostEffects(true);
+
     }
 
 
@@ -411,9 +412,27 @@ public class YbotController : ActorController
 
 
 
+    public void OnRollExit()
+    {
+        SwitchGhostEffects(false);
+    }
+
+
     public void IssueTrigger(string triggerName)
     {
         anim.SetTrigger(triggerName);
     }
+
+
+    public void SwitchGhostEffects(bool use)
+    {
+        foreach (var effect in ghostEffectController.effects)
+        {
+            effect.openGhostEffect = use;
+        }
+    }
+
+
+
 
 }

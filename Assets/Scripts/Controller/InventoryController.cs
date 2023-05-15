@@ -9,6 +9,7 @@ public class InventoryController : MonoSingleton<InventoryController>
 
     public bool isOpen;
 
+    public KeyCode openKey;
 
     public Inventory inventory;
     public GameObject slotGrid;
@@ -32,13 +33,12 @@ public class InventoryController : MonoSingleton<InventoryController>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        //UpdateCursor();
+        if (Input.GetKeyDown(openKey))
         {
-            OpenInventory();
+            Open();
         }
 
-
-        UpdateCursor();
     }
 
 
@@ -88,42 +88,41 @@ public class InventoryController : MonoSingleton<InventoryController>
         Instance.itemInfo.text = "";
     }
 
-    public void CloseInventory()
+    public void Close()
     {
         isOpen = false;
         inventoryPanel.SetActive(isOpen);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void OpenInventory()
+
+    private void Open()
     {
-        if (isOpen==false)
+        if (isOpen == false)
         {
             isOpen = true;
             inventoryPanel.SetActive(isOpen);
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
-            isOpen = !isOpen;
-            inventoryPanel.SetActive(isOpen);
+            Close();
         }
 
 
     }
+
+
+
 
     private void UpdateCursor()
     {
         if (isOpen)
         {
-            //œ‘ æ Û±Í
             Cursor.lockState = CursorLockMode.None;
         }
-        else if (!isOpen)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+
     }
-
-
 
 
 }

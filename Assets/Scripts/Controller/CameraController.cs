@@ -31,6 +31,7 @@ public class CameraController : MonoBehaviour
 
     private new GameObject camera;
     private GameObject model;
+    private GameObject cameraPos;
 
     private Vector3 cameraDampVelocity;
 
@@ -47,7 +48,8 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cameraHandle = transform.parent.gameObject;
+        cameraHandle = transform.Find("cameraHandle").gameObject;
+        cameraPos = cameraHandle.transform.Find("cameraPos").gameObject;
         playerHandle = cameraHandle.transform.parent.gameObject;
         ActorController ac = playerHandle.GetComponent<ActorController>();
 
@@ -131,11 +133,17 @@ public class CameraController : MonoBehaviour
         {
             //ÉãÏñ»ú×·×ÙÐ§¹û
             //camera.transform.position=transform.position;
-            camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
 
-            //Ì«½©Ó²£¬Èá»¯·ÀÔÎ
-            //camera.transform.eulerAngles = transform.eulerAngles;
-            camera.transform.LookAt(cameraHandle.transform);
+            if (camera != null)
+            {
+                camera.transform.position = Vector3.SmoothDamp(camera.transform.position, cameraPos.transform.position, ref cameraDampVelocity, cameraDampValue);
+
+                //Ì«½©Ó²£¬Èá»¯·ÀÔÎ
+                //camera.transform.eulerAngles = transform.eulerAngles;
+                camera.transform.LookAt(cameraHandle.transform);
+            }
+
+
 
         }
 
