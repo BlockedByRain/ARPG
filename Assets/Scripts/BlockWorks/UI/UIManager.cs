@@ -24,7 +24,14 @@ public class UIManager:MonoSingleton<UIManager>
         {
             if (_uiRoot == null)
             {
-                _uiRoot = GameObject.Find(rootName).transform;
+                if (GameObject.Find(rootName))
+                {
+                    _uiRoot = GameObject.Find(rootName).transform;
+                }
+                else
+                {
+                    _uiRoot = new GameObject(rootName).transform;
+                }
                 return _uiRoot;
             };
             return _uiRoot;

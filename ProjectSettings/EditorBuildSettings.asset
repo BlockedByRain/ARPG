@@ -6,28 +6,28 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Title.unity
+    path: Assets/Scenes/Graduate/Title.unity
     guid: 0db56ef50b2a3d84ab5a5ef0bd36b1d0
   - enabled: 1
-    path: Assets/Scenes/TitleSpring.unity
+    path: Assets/Scenes/Graduate/TitleSpring.unity
     guid: 13506b947af3cbc4b9d8048f87d13c79
   - enabled: 1
-    path: Assets/Scenes/TitleSummer.unity
+    path: Assets/Scenes/Graduate/TitleSummer.unity
     guid: 5fd1c011cf8bd73469505be1a3c131c7
   - enabled: 1
-    path: Assets/Scenes/TitleAutumn.unity
+    path: Assets/Scenes/Graduate/TitleAutumn.unity
     guid: 59ccf2cc1ee73634fae642930a3ef248
   - enabled: 1
-    path: Assets/Scenes/TitleWinter.unity
+    path: Assets/Scenes/Graduate/TitleWinter.unity
     guid: 898ec5e41035e5744b53b89a37123cc1
   - enabled: 1
-    path: Assets/Scenes/Main.unity
+    path: Assets/Scenes/Graduate/Main.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/456.unity
     guid: ff78518dd217d0c4fbeba5a65a2bc2c6
   - enabled: 1
-    path: Assets/Scenes/Over.unity
+    path: Assets/Scenes/Graduate/Over.unity
     guid: e457fbc75d401df45b9bc704c22bcbd8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
