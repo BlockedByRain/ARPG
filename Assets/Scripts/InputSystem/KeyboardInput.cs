@@ -87,6 +87,7 @@ public class KeyboardInput : IUserInput
         //Tick所有按键
         TickButtonList(buttonList);
 
+          
 
         //camera信号
         if (mouseEnable == true)
