@@ -10,7 +10,9 @@ public class ActorManager : MonoBehaviour
     public BattleManager bm;
     public WeaponManager wm;
     public StateManager sm;
-
+    public DirectorManager dm;
+    public InteractionManager im;
+    public EventCasterManager ecm;
 
     private void Awake()
     {
@@ -25,7 +27,11 @@ public class ActorManager : MonoBehaviour
 
         sm = Bind<StateManager>(gameObject);
 
+        dm = Bind<DirectorManager>(gameObject);
 
+        im = Bind<InteractionManager>(sensor);
+
+        ecm= Bind<EventCasterManager>(model);
     }
 
     // Update is called once per frame

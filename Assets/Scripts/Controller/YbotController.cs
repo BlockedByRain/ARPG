@@ -20,7 +20,7 @@ public class YbotController : ActorController
     private GhostEffectController ghostEffectController;
 
 
-    private Animator anim;
+    public Animator anim;
     private Rigidbody rb;
 
     private Vector3 planarVec;
