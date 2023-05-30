@@ -423,6 +423,10 @@ public class YbotController : ActorController
         anim.SetTrigger(triggerName);
     }
 
+    public void SetBool(string boolName,bool value)
+    {
+        anim.SetBool(boolName,value);
+    }
 
     public void SwitchGhostEffects(bool use)
     {

@@ -31,6 +31,6 @@ public class TestPlayableMixerBehaviour : PlayableBehaviour
         }
 
 
-        Debug.Log(tempSum);
+        //Debug.Log(tempSum);
     }
 }

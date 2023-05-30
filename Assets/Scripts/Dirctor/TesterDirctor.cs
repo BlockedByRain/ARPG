@@ -16,7 +16,7 @@ public class TesterDirctor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pd= GetComponent<PlayableDirector>();
+        pd = GetComponent<PlayableDirector>();
     }
 
     // Update is called once per frame
@@ -28,20 +28,17 @@ public class TesterDirctor : MonoBehaviour
             {
                 //print(track.streamName);
                 //绑定演出者
-                if (track.streamName=="Attacker Animation")
+                if (track.streamName == "Attack Animation")
                 {
                     pd.SetGenericBinding(track.sourceObject, attacker);
                 }
-                else if (track.streamName=="Victim Animation")
+                else if (track.streamName == "Victim Animation")
                 {
                     pd.SetGenericBinding(track.sourceObject, victim);
 
                 }
 
             }
-
-            
-
 
             //随时打断
             pd.time = 0;

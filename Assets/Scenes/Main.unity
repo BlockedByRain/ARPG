@@ -6671,6 +6671,8 @@ PlayableDirector:
     value: {fileID: 1455953959}
   - key: {fileID: -7186382664808668824, guid: 084736bf429de754fab4eece7ff9ca27, type: 2}
     value: {fileID: 1231793847}
+  - key: {fileID: 1540912473729121406, guid: 084736bf429de754fab4eece7ff9ca27, type: 2}
+    value: {fileID: 370703325}
   m_ExposedReferences:
     m_References:
     - 683bafca2d31feb42b91c119ce072099: {fileID: 963194227}
@@ -6701,7 +6703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 319bec2a4ede21d47aa731aa6436427a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 0}
+  pd: {fileID: 1707161080}
   attacker: {fileID: 1435874297}
   victim: {fileID: 5866666021208488348}
 --- !u!1 &1717398442

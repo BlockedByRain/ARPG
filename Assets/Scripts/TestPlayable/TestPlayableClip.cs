@@ -7,7 +7,7 @@ using UnityEngine.Timeline;
 public class TestPlayableClip : PlayableAsset, ITimelineClipAsset
 {
     public TestPlayableBehaviour template = new TestPlayableBehaviour ();
-    public ExposedReference<Camera> MyCamera;
+    public ExposedReference<GameObject> MyCamera;
 
     public ClipCaps clipCaps
     {
