@@ -32,6 +32,22 @@ public class ActorManager : MonoBehaviour
         im = Bind<InteractionManager>(sensor);
 
         ecm= Bind<EventCasterManager>(model);
+
+
+        yc.OnAction += DoAction;
+
+    }
+
+    public void DoAction()
+    {
+        if (im.overlapEcastms.Count != 0)
+        {
+            if (im.overlapEcastms[0].eventName=="frontStab")
+            {
+                dm.PlayFrontStab("frontStab", this, im.overlapEcastms[0].am);
+            }
+        }
+
     }
 
     // Update is called once per frame

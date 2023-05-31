@@ -6,6 +6,7 @@ public class InteractionManager : IActorManagerInterface
 {
     private CapsuleCollider interCol;
 
+    public List<EventCasterManager> overlapEcastms =new List<EventCasterManager>();
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,28 @@ public class InteractionManager : IActorManagerInterface
         
     }
 
-    private void OnTriggerStay(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
         EventCasterManager[] ecms=col.GetComponents<EventCasterManager>();
         foreach (var ecm in ecms)
         {
+            if (!overlapEcastms.Contains(ecm))
+            {
+                overlapEcastms.Add(ecm);
+            }
+        }
+    }
 
+
+    private void OnTriggerExit(Collider col)
+    {
+        EventCasterManager[] ecms = col.GetComponents<EventCasterManager>();
+        foreach (var ecm in ecms)
+        {
+            if (overlapEcastms.Contains(ecm))
+            {
+                overlapEcastms.Remove(ecm);
+            }
         }
     }
 

@@ -9,7 +9,10 @@ public class EventCasterManager : IActorManagerInterface
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (am==null)
+        {
+            am = GetComponentInParent<ActorManager>();
+        }
     }
 
     // Update is called once per frame

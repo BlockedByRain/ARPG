@@ -21,27 +21,9 @@ public class DirectorManager : IActorManagerInterface
     {
         pd=GetComponent<PlayableDirector>();
         pd.playOnAwake=false;
-        pd.playableAsset=Instantiate(frontStab);
+        //pd.playableAsset=Instantiate(frontStab);
 
-        foreach (var track in pd.playableAsset.outputs)
-        {
-            if (track.streamName=="Attack Script")
-            {
-                pd.SetGenericBinding(track.sourceObject,attacker);
-            }
-            else if (track.streamName == "Victim Script")
-            {
-                pd.SetGenericBinding(track.sourceObject, victim);
-            }
-            else if(track.streamName == "Attack Animation")
-            {
-                pd.SetGenericBinding(track.sourceObject, attacker.yc.anim);
-            }
-            else if(track.streamName == "Victim Animation")
-            {
-                pd.SetGenericBinding(track.sourceObject, victim.yc.anim);
-            }
-        }
+
     
     
     }
@@ -54,4 +36,36 @@ public class DirectorManager : IActorManagerInterface
             pd.Play();
         }
     }
+
+    public void PlayFrontStab(string timelineName,ActorManager attacker, ActorManager victim)
+    {
+        if (timelineName=="frontStab")
+        {
+            pd.playableAsset = Instantiate(frontStab);
+        }
+
+        foreach (var track in pd.playableAsset.outputs)
+        {
+            if (track.streamName == "Attack Script")
+            {
+                pd.SetGenericBinding(track.sourceObject, attacker);
+            }
+            else if (track.streamName == "Victim Script")
+            {
+                pd.SetGenericBinding(track.sourceObject, victim);
+            }
+            else if (track.streamName == "Attack Animation")
+            {
+                pd.SetGenericBinding(track.sourceObject, attacker.yc.anim);
+            }
+            else if (track.streamName == "Victim Animation")
+            {
+                pd.SetGenericBinding(track.sourceObject, victim.yc.anim);
+            }
+        }
+
+        pd.Play();
+    }
+
+
 }

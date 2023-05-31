@@ -28,6 +28,10 @@ public class BattleManager : IActorManagerInterface
         //print(col.name);
         WeaponController targetWc =col.GetComponentInParent<WeaponController>();
 
+        if (targetWc==null)
+        {
+            return;
+        }
 
         //¹¥»÷½Ç¶ÈÅÐ¶¨
         GameObject attacker = targetWc.wm.am.gameObject;

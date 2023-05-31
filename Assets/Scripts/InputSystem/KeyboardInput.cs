@@ -19,6 +19,7 @@ public class KeyboardInput : IUserInput
     public string KeyLock;
     public string KeyDodge;
     public string CounterBack;
+    public string keyAction;
 
     [Header("----- ÷±˙  ≈‰-----")]
     public string KeyRB;
@@ -44,7 +45,7 @@ public class KeyboardInput : IUserInput
     public InputButton buttonE = new InputButton();
     public InputButton buttonF = new InputButton();
     public InputButton buttonG = new InputButton();
-
+    public InputButton buttonH = new InputButton();
 
     public InputButton buttonRB = new InputButton();
     public InputButton buttonRT = new InputButton();
@@ -72,6 +73,7 @@ public class KeyboardInput : IUserInput
         buttonList.Add(buttonE, KeyLock);
         buttonList.Add(buttonF, KeyDodge);
         buttonList.Add(buttonG,CounterBack);
+        buttonList.Add(buttonH, keyAction);
 
         //buttonList.Add(buttonLB, KeyRB);
         //buttonList.Add(buttonLT, KeyRT);
@@ -148,7 +150,7 @@ public class KeyboardInput : IUserInput
         //lt = buttonLT.OnPressed;
         lt = buttonG.OnPressed;
 
-
+        action = buttonH.IsPressing;
 
 
     }

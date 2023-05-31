@@ -21,6 +21,7 @@ public abstract class IUserInput : MonoBehaviour
 
     //2 trigger once signal
     [Header("-----trigger once signal-----")]
+    public bool action;
     public bool jump;
     protected bool lastJump;
 

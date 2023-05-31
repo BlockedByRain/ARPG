@@ -40,6 +40,9 @@ public class YbotController : ActorController
     public bool leftIsShield = true;
 
 
+    public delegate void OnActionDelegate();
+    public event OnActionDelegate OnAction;
+
     private void Awake()
     {
         IUserInput[] inputs = GetComponents<IUserInput>();
@@ -143,7 +146,10 @@ public class YbotController : ActorController
             }
         }
 
-
+        if (pi.action)
+        {
+            OnAction.Invoke();
+        }
 
 
         //∑¿”˘»®÷ÿ
@@ -204,6 +210,10 @@ public class YbotController : ActorController
 
             }
         }
+
+
+
+
     }
 
     private void FixedUpdate()
@@ -395,6 +405,14 @@ public class YbotController : ActorController
     {
         model.SendMessage("CounterBackDisable");
     }
+
+    public void OnLockEnter()
+    {
+        pi.InputEnabled = false;
+        planarVec = Vector3.zero;
+        model.SendMessage("WeaponDisable");
+    }
+
 
     public void OnUpdateRM(object _deltaPos)
     {
