@@ -6,10 +6,10 @@ using UnityEngine.Timeline;
 [Serializable]
 public class TestPlayableBehaviour : PlayableBehaviour
 {
-    public GameObject MyCamera;
+    public ActorManager am;
     public float MyFloat;
 
-    PlayableDirector director;
+    PlayableDirector pd;
 
     public override void OnPlayableCreate (Playable playable)
     {
@@ -18,30 +18,17 @@ public class TestPlayableBehaviour : PlayableBehaviour
 
     public override void OnGraphStart(Playable playable)
     {
-        director = (PlayableDirector)playable.GetGraph().GetResolver();
+        pd = (PlayableDirector)playable.GetGraph().GetResolver();
 
-        foreach (var track in director.playableAsset.outputs)
-        {
-            //Debug.Log(track.streamName);
-            if (track.streamName == "Attack Script" || track.streamName == "Victim Script")
-            {
-                ActorManager am= (ActorManager)director.GetGenericBinding(track.sourceObject);
-                am.LockUnlockActorController(true);
-            }
-        }
+
     }
 
 
     public override void OnGraphStop(Playable playable)
     {
-        foreach (var track in director.playableAsset.outputs)
+        if (pd.playableAsset!=null)
         {
-            //Debug.Log(track.streamName);
-            if (track.streamName == "Attacker Script"|| track.streamName == "Victim Script")
-            {
-                ActorManager am = (ActorManager)director.GetGenericBinding(track.sourceObject);
-                am.LockUnlockActorController(false);
-            }
+            pd.playableAsset = null;
         }
     }
 
@@ -54,13 +41,15 @@ public class TestPlayableBehaviour : PlayableBehaviour
 
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
-
+        am.LockUnlockActorController(false);
     }
+
 
 
     public override void PrepareFrame(Playable playable, FrameData info)
     {
-
+        am.LockUnlockActorController(true);
     }
+
 
 }

@@ -35,10 +35,10 @@ MonoBehaviour:
   m_Name: TestPlayableClip(Clone)(Clone)
   m_EditorClassIdentifier: 
   template:
-    MyCamera: {fileID: 0}
-    MyFloat: 0
-  MyCamera:
-    exposedName: 3d12db84031a810408771deb4bdfaf82
+    am: {fileID: 0}
+    MyFloat: 777
+  am:
+    exposedName: 19722
     defaultValue: {fileID: 0}
 --- !u!114 &-7186382664808668824
 MonoBehaviour:
@@ -235,7 +235,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -333,10 +351,10 @@ MonoBehaviour:
   m_Name: TestPlayableClip
   m_EditorClassIdentifier: 
   template:
-    MyCamera: {fileID: 0}
-    MyFloat: 0
-  MyCamera:
-    exposedName: a28c88a0e51da3c4e83e4a3813c29488
+    am: {fileID: 0}
+    MyFloat: 666
+  am:
+    exposedName: 19720
     defaultValue: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
