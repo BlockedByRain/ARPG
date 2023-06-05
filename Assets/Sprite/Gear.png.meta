@@ -60,7 +60,7 @@ TextureImporter:
       213: -9111050450395436
     second: Gear_18
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -81,6 +81,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -119,6 +120,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -134,6 +136,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -556,6 +570,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Gear_0: 3891269495536304776
+      Gear_1: 7067918514050784639
+      Gear_10: 5583599080084175878
+      Gear_11: 9045420823777538095
+      Gear_12: -905629838672147175
+      Gear_13: 3068057118030450010
+      Gear_14: 5568876973383526999
+      Gear_15: 1267200992881296631
+      Gear_16: 3256367730777501667
+      Gear_17: -4888800609533420998
+      Gear_18: -9111050450395436
+      Gear_2: -7479048774944034907
+      Gear_3: -4711828637313208618
+      Gear_4: -7136263708697848698
+      Gear_5: 1045834680578205748
+      Gear_6: 1779252750261456882
+      Gear_7: 7605204832001237057
+      Gear_8: 968078780087735006
+      Gear_9: -3351591999413821619
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
