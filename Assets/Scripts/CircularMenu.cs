@@ -15,9 +15,6 @@ public class CircularMenu : MonoBehaviour, IPointerClickHandler, IPointerMoveHan
     private CanvasGroup cg;
 
     [SerializeField]
-    private Image _0;
-
-    [SerializeField]
     private Image _1;
 
     [SerializeField]
@@ -84,7 +81,6 @@ public class CircularMenu : MonoBehaviour, IPointerClickHandler, IPointerMoveHan
 
     private void ResetColor()
     {
-        _0.color = hide;
         _1.color = hide;
         _2.color = hide;
         _3.color = hide;
@@ -111,21 +107,30 @@ public class CircularMenu : MonoBehaviour, IPointerClickHandler, IPointerMoveHan
 
     public void OnPointerMove(PointerEventData e)
     {
-        int part = RectTransformUtility.RectangleContainsScreenPoint(_0.rectTransform, e.position) ? 0 : ((int)e.position.GetAnlgeFromPoint(new Vector2(Screen.width / 2, Screen.height / 2)) / 60) + 1;
+        int part;
+        if (RectTransformUtility.RectangleContainsScreenPoint(_1.rectTransform, e.position))
+        {
+            part = 1;
+        }
+        else
+        {
+            part = ((int)e.position.GetAnlgeFromPoint(new Vector2(Screen.width / 2, Screen.height / 2)) / 60) + 1;
+        }
+        
+        
         if (currentPart != part)
         {
             currentPart = part;
             ResetColor();
             switch (currentPart)
             {
-                case 0: _0.color = show; return;
                 case 1: _1.color = show; return;
                 case 2: _2.color = show; return;
                 case 3: _3.color = show; return;
                 case 4: _4.color = show; return;
                 case 5: _5.color = show; return;
                 case 6: _6.color = show; return;
-                default: _0.color = show; return;
+                default: _1.color = show; return;
             }
         }
         else
